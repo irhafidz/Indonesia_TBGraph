@@ -10,12 +10,6 @@ TBGraph is an end-to-end, explainable knowledge graph framework that transforms 
 
 ---
 
-## Overview
-
-Indonesia carries one of the world's highest tuberculosis burdens, yet systemic inequities in care quality and access remain poorly quantified at national scale. TBGraph leverages anonymized BPJS Kesehatan claims data — Indonesia's national health insurance program covering over 260 million enrollees — to construct a semantically rich knowledge graph linking patients, facilities, regions, and clinical outcomes. A Graph Attention Network (GAT) then performs equity reasoning across this graph, and GNNExplainer surfaces the subgraph features that drive disparity predictions. The result is a transparent, reproducible pipeline designed to support evidence-based TB governance and policy.
-
----
-
 ## Pipeline
 
 ```
@@ -64,12 +58,12 @@ Indonesia carries one of the world's highest tuberculosis burdens, yet systemic 
 
 ## Key Features
 
-- **Population-scale KG construction** — Builds a heterogeneous knowledge graph from millions of TB insurance claims spanning 500+ Indonesian cities and regencies using NetworkX and RDFLib.
-- **Domain ontology** — A custom OWL/SKOS ontology (`tbgraph_ontology.ttl`) encodes TB care concepts, insurance categories (PBI/non-PBI), hospital tiers (FKTP/FKRTL), and regional administrative hierarchies.
-- **Equity-focused GAT reasoning** — A Graph Attention Network learns node embeddings that capture structural disparities between subsidized poor patients (PBI) and general enrollees across facility tiers and geographies.
-- **GNNExplainer attribution** — Subgraph-level explanations identify which patient–facility–region relationships most strongly predict care inequity, making model decisions interpretable for policymakers.
-- **Governance-ready outputs** — Structured JSON policy reports and region-level CSV statistics are generated automatically, formatted for direct use in public health reporting workflows.
-- **Synthetic data generation** — Because the real BPJS dataset is restricted, the pipeline notebook includes a reproducible synthetic data generator that mirrors the statistical properties of the original claims data.
+- **Population-scale KG construction** Builds a heterogeneous knowledge graph from millions of TB insurance claims spanning 500+ Indonesian cities and regencies using NetworkX and RDFLib.
+- **Domain ontology** A custom OWL/SKOS ontology (`tbgraph_ontology.ttl`) encodes TB care concepts, insurance categories (PBI/non-PBI), hospital tiers (FKTP/FKRTL), and regional administrative hierarchies.
+- **Equity-focused GAT reasoning** A Graph Attention Network learns node embeddings that capture structural disparities between subsidized poor patients (PBI) and general enrollees across facility tiers and geographies.
+- **GNNExplainer attribution** Subgraph-level explanations identify which patient–facility–region relationships most strongly predict care inequity, making model decisions interpretable for policymakers.
+- **Governance-ready outputs** Structured JSON policy reports and region-level CSV statistics are generated automatically, formatted for direct use in public health reporting workflows.
+- **Synthetic data generation** Because the real BPJS dataset is restricted, the pipeline notebook includes a reproducible synthetic data generator that mirrors the statistical properties of the original claims data.
 
 ---
 
@@ -110,27 +104,6 @@ pip install torch torchvision torch-geometric \
 
 ---
 
-## Quick Start
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/<your-username>/tbgraph.git
-cd tbgraph
-
-# 2. Install dependencies
-pip install torch torchvision torch-geometric \
-            networkx rdflib \
-            pandas scikit-learn \
-            matplotlib seaborn
-
-# 3. Launch the pipeline notebook
-jupyter notebook notebooks/TBGraph_Pipeline.ipynb
-```
-
-Run the cells sequentially. The notebook is organized into four clearly labeled stages matching the pipeline above.
-
----
-
 ## Dataset
 
 The real BPJS Kesehatan TB claims data used in this research is **restricted** and cannot be redistributed. Access is subject to formal data-sharing agreements with BPJS Kesehatan and the Indonesian Ministry of Health.
@@ -147,7 +120,7 @@ If you use TBGraph in your research, please cite:
 @inproceedings{anonymous2026tbgraph,
   title     = {TBGraph: An Explainable Knowledge Graph Framework for Tuberculosis
                Governance Using National Health Insurance Claims at Population Scale},
-  author    = {Anonymous},
+  author    = {Hafidz, I, Rakmawati, N.A, Rusdiansyah, A.},
   booktitle = {AI4GOOD Workshop at ICML 2026},
   year      = {2026},
   note      = {Workshop paper}
