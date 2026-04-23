@@ -2,10 +2,6 @@
 
 **Explainable Knowledge Graph Framework for Tuberculosis Governance Using National Health Insurance Claims at Population Scale**
 
-![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
-![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue.svg)
-![Framework: PyTorch Geometric](https://img.shields.io/badge/Framework-PyTorch%20Geometric-orange.svg)
-
 TBGraph is an end-to-end, explainable knowledge graph framework that transforms population-scale TB insurance claims into governance-ready equity insights. It exposes disparities in tuberculosis care access between subsidized (PBI) and non-PBI patients across hospital tiers and 500+ Indonesian cities/regencies, with full GNN explainability.
 
 ---
@@ -24,8 +20,8 @@ TBGraph is an end-to-end, explainable knowledge graph framework that transforms 
            │
            ▼
   ┌──────────────────┐
-  │ Stage 1 · Ontol- │
-  │  ogy Design      │   RDFLib · OWL/SKOS schema · tbgraph_ontology.ttl
+  │ Stage 1 · Ontolo │
+  │  gy Design      │   RDFLib · OWL/SKOS schema · tbgraph_ontology.ttl
   └────────┬─────────┘
            │
            ▼
@@ -53,55 +49,6 @@ TBGraph is an end-to-end, explainable knowledge graph framework that transforms 
   │  & Region Stats  │   tbgraph_policy_report.json · tbgraph_region_stats.csv
   └──────────────────┘
 ```
-
----
-
-## Key Features
-
-- **Population-scale KG construction** Builds a heterogeneous knowledge graph from millions of TB insurance claims spanning 500+ Indonesian cities and regencies using NetworkX and RDFLib.
-- **Domain ontology** A custom OWL/SKOS ontology (`tbgraph_ontology.ttl`) encodes TB care concepts, insurance categories (PBI/non-PBI), hospital tiers (FKTP/FKRTL), and regional administrative hierarchies.
-- **Equity-focused GAT reasoning** A Graph Attention Network learns node embeddings that capture structural disparities between subsidized poor patients (PBI) and general enrollees across facility tiers and geographies.
-- **GNNExplainer attribution** Subgraph-level explanations identify which patient–facility–region relationships most strongly predict care inequity, making model decisions interpretable for policymakers.
-- **Governance-ready outputs** Structured JSON policy reports and region-level CSV statistics are generated automatically, formatted for direct use in public health reporting workflows.
-- **Synthetic data generation** Because the real BPJS dataset is restricted, the pipeline notebook includes a reproducible synthetic data generator that mirrors the statistical properties of the original claims data.
-
----
-
-## Repository Structure
-
-```
-tbgraph/
-├── README.md
-├── notebooks/
-│   └── TBGraph_Pipeline.ipynb        # Full end-to-end pipeline (Stages 1–4)
-├── ontology/
-│   └── tbgraph_ontology.ttl          # OWL/SKOS domain ontology
-├── outputs/
-│   ├── tbgraph_policy_report.json    # Structured equity findings by region
-│   └── tbgraph_region_stats.csv      # Per-region descriptive statistics
-├── figures/
-│   ├── tbgraph_subgraph_sample.png   # Sample KG subgraph visualization
-│   ├── tbgraph_descriptive_stats.png # Cohort and claims descriptive plots
-│   └── tbgraph_explainer_features.png# GNNExplainer feature attribution map
-└── models/
-    └── tbgraph_gat_best.pt           # Best GAT checkpoint (saved weights)
-```
-
----
-
-## Requirements
-
-Python 3.9 or higher is required. Install all dependencies with:
-
-```bash
-pip install torch torchvision torch-geometric \
-            networkx rdflib \
-            pandas scikit-learn \
-            matplotlib seaborn
-```
-
-> **Note:** For `torch-geometric`, match the version to your CUDA/CPU build. See the [PyTorch Geometric installation guide](https://pytorch-geometric.readthedocs.io/en/latest/install/installation.html) for details.
-
 ---
 
 ## Dataset
