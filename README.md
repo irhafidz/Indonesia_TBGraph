@@ -6,7 +6,7 @@
 ![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue.svg)
 ![Framework: PyTorch Geometric](https://img.shields.io/badge/Framework-PyTorch%20Geometric-orange.svg)
 
-TBGraph is an end-to-end, explainable knowledge graph framework that transforms population-scale TB insurance claims into governance-ready equity insights. It exposes disparities in tuberculosis care access between subsidized (PBI) and non-PBI patients across hospital tiers and 500+ Indonesian cities/regencies — with full GNN explainability.
+TBGraph is an end-to-end, explainable knowledge graph framework that transforms population-scale TB insurance claims into governance-ready equity insights. It exposes disparities in tuberculosis care access between subsidized (PBI) and non-PBI patients across hospital tiers and 500+ Indonesian cities/regencies, with full GNN explainability.
 
 ---
 
