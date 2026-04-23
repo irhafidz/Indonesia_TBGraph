@@ -137,6 +137,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Acknowledgements
 
-- **BPJS Kesehatan** — for facilitating access to anonymized national health insurance claims data under formal data governance agreement.
-- **Institut Teknologi Sepuluh Nopember (ITS) Surabaya** — for institutional support and research infrastructure.
-- **World Health Organization** — *Global Tuberculosis Report 2024*, which informed the equity framing and epidemiological context of this work.
+- **BPJS Kesehatan** for facilitating access to anonymized national health insurance claims data under formal data governance agreement.
+- **Institut Teknologi Sepuluh Nopember (ITS) Surabaya** for institutional support and research infrastructure.
+- **World Health Organization** *Global Tuberculosis Report 2024*, which informed the equity framing and epidemiological context of this work.
