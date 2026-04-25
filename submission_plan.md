@@ -62,7 +62,7 @@ The goal is to show that anonymized BPJS claims can be converted into a graph-ba
 
 ## Part 2 ”Information Sciences journal (deadline 30 June 2026)
 
-This should be your **main submission** and the most complete scientific version of TBGraph.[cite:357]  
+This should be your **main submission** and the most complete scientific version of TBGraph.
 Here you should fully realize the pipeline shown in your methodology figure: ontology-guided schema, graph construction from BPJS tables, graph learning, explainability, and equity interpretation.
 
 ### Information Sciences paper target structure
@@ -83,7 +83,7 @@ Here you should fully realize the pipeline shown in your methodology figure: ont
 | Week / phase | Task | What exactly to do | Deliverable |
 |---|---|---|---|
 | 24 Apr-1 May | Finalize cohort and target | Decide the primary journal target, define inclusion/exclusion criteria, and document all preprocessing assumptions. This should be the cohort definition you will keep stable for the rest of the project. | Final cohort CSV and cohort flow note. |
-| 2-8 May | Formalize graph schema | Translate the metadata sheet into executable schema: patient, FKTP, FKRTL, diagnosis, region, and socioeconomic attributes where feasible.[file:341] | Schema diagram and schema description text. |
+| 2-8 May | Formalize graph schema | Translate the metadata sheet into executable schema: patient, FKTP, FKRTL, diagnosis, region, and socioeconomic attributes where feasible.| Schema diagram and schema description text. |
 | 2-8 May | Implement graph construction | Build node ID dictionaries, edge lists, feature matrices, and a saved graph object such as a PyTorch Geometric `HeteroData`. | `tbgraph_hetero.pt` or equivalent. |
 | 9-15 May | Train tabular baselines | Build patient-level aggregate features and run logistic regression, random forest, and/or XGBoost. Record AUC, F1, recall, and calibration if possible. | Baseline results table. |
 | 16-22 May | Train primary graph model | Train one main graph model carefully, tune modestly, and compare with baselines. Keep notes on split strategy and random seeds for reproducibility. | Main model metrics table and ROC/PR figure. |
