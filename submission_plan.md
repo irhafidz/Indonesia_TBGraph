@@ -18,7 +18,7 @@ The TBGraph concept already defines a three-phase pipeline ontology design, data
 The right strategy is to treat the three submissions as **one shared pipeline with three different levels of completeness**.  
 The ICML workshop paper should be the fastest and leanest version, the Information Sciences paper should be the complete graph-AI paper, and the XAI journal should be a more interpretability-centered derivative only if it becomes sufficiently distinct in contribution and framing.
 
-## Part 1 ”ICML 2026 AI4GOOD Workshop (deadline 3 May 2026)
+## Part 1 ”ICML 2026 AI4GOOD Workshop" (deadline 3 May 2026)
 
 The workshop deadline is extremely close, so this paper must be deliberately compact.
 The goal is to show that anonymized BPJS claims can be converted into a graph-based AI pipeline for equitable TB governance in Indonesia, not to complete every experiment you would want for a journal paper.
