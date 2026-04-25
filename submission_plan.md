@@ -1,6 +1,6 @@
-# TBGraph Submission Plan (Detailed, Updated for Aprilâ€“June 2026)
+# TBGraph Submission Plan
 
-This document is an updated, GitHub-ready working plan for three TBGraph submissions based on the current April 2026 timeline: **ICML 2026 AI4GOOD workshop in Seoul (deadline 3 May 2026 AoE)**, **Information Sciences special issue â€œGraph-based solutions for Artificial Intelligenceâ€ (deadline 30 June 2026)**, and a parallel **XAI-focused journal target (deadline 30 June 2026)**.[cite:375][cite:357]  
+This is a working plan for three TBGraph submissions based on the current April 2026 timeline: **ICML 2026 AI4GOOD workshop in Seoul (deadline 3 May 2026 AoE)**, **Information Sciences special issue â€œGraph-based solutions for Artificial Intelligenceâ€ (deadline 30 June 2026)**, and a parallel **XAI-focused journal target (deadline 30 June 2026)**.[cite:375][cite:357]  
 The TBGraph concept already defines a three-phase pipelineâ€”ontology design, data/KG construction, and GNN reasoning with explainabilityâ€”which provides the backbone for all three submissions.[image:1][file:341]
 
 [image:1]
