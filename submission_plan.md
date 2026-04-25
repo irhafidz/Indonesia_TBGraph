@@ -1,62 +1,162 @@
-# TBGraph Action Plan
+# TBGraph Submission Plan (Detailed, Updated for Aprilâ€“June 2026)
 
-## Overview
+This document is an updated, GitHub-ready working plan for three TBGraph submissions based on the current April 2026 timeline: **ICML 2026 AI4GOOD workshop in Seoul (deadline 3 May 2026 AoE)**, **Information Sciences special issue â€œGraph-based solutions for Artificial Intelligenceâ€ (deadline 30 June 2026)**, and a parallel **XAI-focused journal target (deadline 30 June 2026)**.[cite:375][cite:357]  
+The TBGraph concept already defines a three-phase pipelineâ€”ontology design, data/KG construction, and GNN reasoning with explainabilityâ€”which provides the backbone for all three submissions.[image:1][file:341]
 
-- Main goal (now): Submit TBGraph case study to **Information Sciences – Special Issue: Graph-based solutions for Artificial Intelligence** by **1 June**.
-- Secondary goals (after June):  
-  - Extend XAI analysis for a dedicated **XAI journal** article.  
-  - Prepare a shorter, impact‑focused paper for **ICML 2026 “AI for Good” (Seoul)**, using the same pipeline and results.
+[image:1]
 
----
+## Short aim plan
 
-## Part A – Information Sciences Special Issue (Deadline: 1 June)
+| Priority | Venue / Track | Deadline | Short aim plan |
+|---|---|---:|---|
+| 1 | ICML 2026 AI4GOOD Workshop, Seoul | 3 May 2026 AoE [cite:375][cite:379] | Submit a short, impact-first paper with one clean TB prediction task, a minimal BPJS-based TBGraph, one baseline vs one graph model, and 1â€“2 XAI figures showing inequitable TB pathways. |
+| 2 | Information Sciences â€“ Special Issue â€œGraph-based solutions for Artificial Intelligenceâ€ | 30 June 2026 [cite:357] | Submit the main full paper with reproducible cohort construction, heterogeneous KG building, baseline and GNN comparison, XAI, and quantitative equity analysis. |
+| 3 | XAI-focused journal target | 30 June 2026 (your target) | Submit a distinct XAI-centered version emphasizing explanation quality, fairness, and interpretability over raw predictive novelty. |
 
-### Week-by-week task breakdown (now → 1 June)
+## Working principle
 
-| Week (2026) | Task Theme | What to Do / Achieve | Concrete Targets |
-|------------|------------|----------------------|------------------|
-| Week 1 (Apr 25 – May 1) | Finalise cohort & labels | 1. Decide ONE clear prediction label: (a) TB treatment outcome (good vs bad) or (b) high-cost TB episode (e.g., top 20–25% of total TB claim cost). 2. In the existing BPJS `.ipynb`, build `patients_df` (1 row per PSTV01) with age, sex, class (PSTV09), PBI status (PSTV10), region/province. 3. Build `episodes_df` summarising visits/referrals per patient (counts of FKTP visits, presence of FKRTL referral, highest hospital class accessed, time FKTP→FKRTL, total TB cost using FKL47). 4. Use ICD‑10 lookup (`df8`) to filter to TB codes A15–A19 only. 5. Drop records missing key dates/outcomes required for the label. | - One clean CSV: `tb_patients_cohort.csv` with features + final label column `y`. - Short note: exact label definition (e.g., “y=1 if total TB cost is in top 25% of distribution”). |
-| Week 2 (May 2 – May 8) | Implement TBGraph KG | 1. Fix KG schema in code based on metadata sheet: node types (`patient`, `fktp`, `fkrtl`, `region`), edge types (`patient`–`visit_fktp`–`fktp`, `patient`–`referral_fkrtl`–`fkrtl`, `fktp`–`located_in`–`region`, `fkrtl`–`located_in`–`region`). 2. In Python, create integer ID maps for each node type. 3. From FKTP and FKRTL dataframes, construct edge lists with timestamps and basic attributes (e.g., visit date, referral date). 4. Build node feature matrices: patient socio‑economic features; facility tier; hospital class and region. 5. Use PyTorch Geometric to create a `HeteroData` object with node features, edge indices, and `y` on `patient` nodes. | - One saved file: `tbgraph_hetero.pt`. - Text summary for paper: number of patients, facilities, hospitals, regions; edges per type; average degree. |
-| Week 3 (May 9 – May 15) | Baselines + first GNN | 1. From `tb_patients_cohort.csv`, produce `X_tabular` (aggregated patient features) and `y`. 2. Train baseline models (logistic regression, Random Forest/XGBoost) with 5‑fold cross‑validation. 3. Record performance: AUC‑ROC, F1, precision, recall. 4. Load `tbgraph_hetero.pt` and split patient nodes into train/validation/test (70/15/15, stratified). 5. Implement a simple R‑GCN or HeteroConv GNN (2–3 layers, hidden size 32–64, dropout ~0.3) for node classification on `patient` nodes. 6. Train with early stopping on validation AUC; evaluate on test set. 7. Compare GNN performance to best baseline. | - Results table: `Model | AUC | F1 | Precision | Recall` including baselines and GNN. - At least 1 ROC curve figure for the GNN. - Choose your “main” GNN model for the paper (the one with best and most stable metrics). |
-| Week 4 (May 16 – May 22) | XAI & equity analysis | 1. Integrate GNNExplainer (or PyG `Explainer`) for your chosen GNN. 2. Select 10–20 patients: high‑risk, low‑risk, misclassified, different SES groups (PBI vs non‑PBI, Java–Bali vs outer islands). 3. For each selected patient node, run GNNExplainer to obtain important neighbors and features. 4. Visualise explanation subgraphs (patient, facility, hospital, region) using NetworkX or PyG plotting tools; export as high‑resolution images. 5. Define equity groups based on PBI status, region, and hospital class; compute outcome rates, average predicted risk, mean time‑to‑referral, and total cost per group. 6. Create 2–3 key tables/plots showing disparities and relate them to the explanation subgraphs. | - 3–4 clean explanation subgraph figures with captions (e.g., “High‑risk PBI patient routed through low‑class hospital with long referral delay”). - 2–3 equity tables/plots (group statistics). - Clear text in notes describing at least one “equitable” and one “inequitable” TB pathway pattern. |
-| Week 5 (May 23 – May 31) | Writing, polishing & submission | 1. Draft full paper with sections: Introduction, Related Work, Data & TBGraph Construction, Methods (baselines + GNN + XAI), Results, Discussion, Conclusion. 2. Integrate evidence from your lit review spreadsheet to highlight the gap (no TB KG + claims + GNN + XAI in LMICs). 3. Insert all figures (schema diagram, ROC curve, XAI subgraphs, equity plots) and tables (dataset statistics, model metrics, equity metrics). 4. Write 150–200 word abstract stressing (a) graph‑based AI, (b) equity and TB governance, (c) explainable GNN. 5. Prepare highlights and a graphical abstract (adapt your three‑phase TBGraph figure). 6. Check Information Sciences Guide for Authors (format, word limits, reference style) and implement required formatting. 7. Get feedback from supervisors, revise once, and upload via the Elsevier/Information Sciences submission portal under the special issue “Graph-based solutions for Artificial Intelligence.” | - Complete manuscript (LaTeX or Word) + all figures, tables, highlights, graphical abstract. - Submission confirmation email from the journal before or on 1 June. |
+The right strategy is to treat the three submissions as **one shared pipeline with three different levels of completeness**.  
+The ICML workshop paper should be the fastest and leanest version, the Information Sciences paper should be the complete graph-AI paper, and the XAI journal should be a more interpretability-centered derivative only if it becomes sufficiently distinct in contribution and framing.[cite:375][cite:357]
 
----
+## Part 1 â€” ICML 2026 AI4GOOD Workshop (deadline 3 May 2026)
 
-## Part B – Follow‑up XAI Journal Submission (after June, more XAI depth)
+The workshop deadline is extremely close, so this paper must be deliberately compact.[cite:375]  
+The goal is to show that anonymized BPJS claims can be converted into a graph-based AI pipeline for equitable TB governance in Indonesia, not to complete every experiment you would want for a journal paper.[cite:375][file:341]
 
-### High‑level aim
+### ICML target paper structure
 
-Transform TBGraph into a more XAI‑focused paper for a specialised XAI journal (e.g., focusing on GNN explanations, fairness, or healthcare explainability). You will **reuse the same dataset and main model**, but deepen the XAI and evaluation side.
+| Section | What to include | What to leave out |
+|---|---|---|
+| Problem | TB burden, BPJS uniqueness, need for equity-aware pathway modeling | Long literature review |
+| Data | Short BPJS TB cohort description, key variables, anonymization note | Full ontology detail |
+| Graph construction | Minimal patient-facility-pathway graph schema | Full OWL/Neo4j implementation narrative |
+| Modeling | One baseline and one graph model | Multiple graph architectures |
+| XAI | 1â€“2 explanation subgraphs with short interpretation | Deep explainer benchmarking |
+| Impact | Why this matters for TB governance and AI for Good | Overclaiming deployment readiness |
 
-| Stage | Task Theme | What to Do / Achieve | Targets |
-|-------|------------|----------------------|---------|
-| Stage 1 (June – July) | Expand explanation methods | 1. Add at least one more GNN XAI method: gradient‑based (Integrated Gradients), PGExplainer, or attention‑weight analysis. 2. Implement a unified pipeline to run multiple explainers on the same patients. 3. Compare stability and agreement between methods (e.g., which edges/features are consistently highlighted). | - Table/plot showing overlap in top‑k important features/edges between methods. - Example cases where explanations agree vs disagree. |
-| Stage 2 (July – August) | Human‑interpretability & fairness | 1. Define human‑meaningful explanation metrics (e.g., simplicity, faithfulness) based on available literature. 2. Conduct a small “expert review” session if possible (e.g., TB clinician or public health expert rates whether highlighted pathways make sense). 3. Strengthen fairness analysis: use metrics such as demographic parity difference or equal opportunity for groups defined by PBI status or region. | - Quantitative fairness metrics table. - Short qualitative summary from expert feedback (if feasible). |
-| Stage 3 (August – September) | XAI‑centric manuscript | 1. Re‑structure the paper around XAI: TBGraph as case study, but main contribution is methodology for explainable GNN on health‑equity graphs. 2. Emphasise (a) taxonomies of explanations, (b) evaluation of explanation quality, (c) how explanations reveal inequities. 3. Submit to an XAI‑specific journal or special issue aligned with explainable graph learning in healthcare. | - Second manuscript focused on XAI, referencing but not duplicating the Information Sciences paper. |
+### ICML detailed steps
 
----
+| Step | Task | What exactly to do | Deliverable |
+|---|---|---|---|
+| 1 | Freeze one prediction target | Choose only one label for ICML: e.g., high-cost TB episode, referral delay risk, or adverse pathway risk. Pick the one you can derive fastest and explain most clearly. | One final target definition written in one sentence. |
+| 2 | Build the minimum TB cohort | In the BPJS notebook, filter ICD-10 A15â€“A19 TB cases; create one row per patient; keep only key features such as PBI status, insurance class, region, facility sequence, hospital class, and cost/outcome variables.[file:341] | `patients_df` and `episodes_df` ready for modeling. |
+| 3 | Define trainable label | Derive `y` clearly and reproducibly, such as `high_cost = 1 if total episode cost >= 75th percentile`. Keep this simple and document the threshold. | A label column in your cohort file plus a note in Methods. |
+| 4 | Build minimal graph schema | Create nodes for `patient`, `fktp`, and `fkrtl`; optionally add `region` if it is easy to encode. Create edges `patient->fktp` and `patient->fkrtl`, and attach a few meaningful node features.[file:339][file:341] | One graph object and one schema figure for the paper. |
+| 5 | Run one baseline | Train logistic regression or XGBoost on patient-level aggregated features. Use a simple split or 5-fold CV. | One baseline metric table. |
+| 6 | Run one graph model | Use one graph model only, ideally GraphSAGE, GAT, or hetero R-GCN if your graph is stable. Do not spend time on many variants. | One graph-model metric table. |
+| 7 | Generate one explanation figure | Use GNNExplainer or attention weights for 2â€“3 patient examples. Focus on one clear inequitable pathway pattern, such as disadvantaged patients routed through lower-tier facilities with longer delays. | One clean XAI figure and short explanation. |
+| 8 | Draft the paper | Write 4â€“6 pages with a strong impact-first framing: TB, Indonesia, BPJS, graph AI, equitable pathways. Keep the claims modest and honest. | Draft paper PDF or source. |
+| 9 | Supervisor revision | Simplify wording, tighten abstract, improve title, and verify all claims match available evidence. | Submission-ready version. |
+| 10 | Submit | Upload before 3 May AoE and keep a clean archive of the exact submitted version. | Final ICML AI4GOOD submission.[cite:375][cite:379] |
 
-## Part C – ICML 2026 “AI for Good” (Seoul) – TBGraph as Impact Story
+### ICML coding checklist
 
-### High‑level aim
+| Module | Minimum code you need |
+|---|---|
+| Data prep | TB filter, patient episode aggregation, label generation |
+| Graph builder | Patient/facility node maps, edge indices, node features |
+| Baseline | Logistic regression or XGBoost |
+| Graph model | One GNN only |
+| XAI | One explainer run on a few examples |
+| Figures | One metrics table, one XAI graph figure |
 
-Prepare a shorter conference paper highlighting **policy impact and methodology** for TBGraph as an AI‑for‑Good solution in Indonesia, based on your final GNN + XAI pipeline.
+## Part 2 â€” Information Sciences journal (deadline 30 June 2026)
 
-Assume ICML 2026 workshop/track notifications early 2026, with submission around **January 2026** (exact date to be checked on the ICML call for papers when available).
+This should be your **main submission** and the most complete scientific version of TBGraph.[cite:357]  
+Here you should fully realize the pipeline shown in your methodology figure: ontology-guided schema, graph construction from BPJS tables, graph learning, explainability, and equity interpretation.[image:1][file:341]
 
-| Stage | Task Theme | What to Do / Achieve | Targets |
-|-------|------------|----------------------|---------|
-| Stage 1 (Oct – Nov 2025) | Policy & case-study framing | 1. Summarise how TBGraph can support equitable TB governance decisions: e.g., identifying bottleneck facilities, regions with long delays, or high catastrophic costs. 2. Prepare 2–3 “scenario” narratives: “What would MoH/BPJS do with these insights?” 3. Select the most impactful XAI subgraphs and equity plots as visuals for non‑technical audience (policy‑makers, workshop attendees). | - Short 1–2 page concept note emphasising social impact and policy relevance. - Clear mapping from TBGraph outputs to potential interventions. |
-| Stage 2 (Dec 2025) | ICML‑style technical summary | 1. Compress the technical methodology: TBGraph construction, GNN, and explanations, emphasizing novelty relative to general GNN or health applications. 2. Prepare new experiments if needed: temporal generalisation (train on earlier years, test on later years), or robustness to missing data. 3. Write a 6–8 page ICML‑style paper (or workshop format) with clear problem statement, method, experiments, and impact. | - Draft ICML paper with AI‑for‑Good emphasis, reusing but shortening material from your journal paper plus additional robustness results. |
-| Stage 3 (Jan 2026) | Submission & presentation prep | 1. Finalise and submit to the appropriate ICML 2026 “AI for Good” track/workshop (Korea). 2. Prepare slides or a poster focusing on (a) TB burden in Indonesia, (b) BPJS as unique data resource, (c) TBGraph method, (d) key findings. 3. Design a simple demo script or static storyboard in case you get a spotlight talk. | - Submitted ICML paper. - Completed slide deck or poster template ready for revisions after reviews. |
+### Information Sciences paper target structure
 
----
+| Section | What must be strong |
+|---|---|
+| Introduction | TB governance problem, graph-based AI motivation, LMIC/BPJS relevance, contribution bullets |
+| Related work | Clear gap: no combined TB + claims + KG + GNN + XAI study in this setting.[file:341] |
+| Data | Reproducible cohort creation, variables, anonymization, cohort statistics |
+| TBGraph construction | Schema, entity/relationship logic, graph statistics, implementation details |
+| Modeling | Baselines, GNN architecture, training and evaluation setup |
+| Explainability | Method used, example explanations, pathway interpretation |
+| Equity analysis | PBI, region, class/tier disparities with quantitative evidence |
+| Discussion | Policy implications, limitations, and next steps |
 
-## How to Use This Plan
+### Information Sciences detailed steps
 
-- Save this file as `tbgraph_plan.md` in your project folder or Git repo so you can re‑read it every day.
-- At the start of each week, highlight the current row in the Week table and tick off tasks as you complete them.
-- When you feel stuck, focus on **one cell** in the table (e.g., “build `patients_df` and `episodes_df`”) and ask for concrete code help for that exact cell.
+| Week / phase | Task | What exactly to do | Deliverable |
+|---|---|---|---|
+| 24 Apr â€“ 1 May | Finalize cohort and target | Decide the primary journal target, define inclusion/exclusion criteria, and document all preprocessing assumptions. This should be the cohort definition you will keep stable for the rest of the project. | Final cohort CSV and cohort flow note. |
+| 2 â€“ 8 May | Formalize graph schema | Translate the metadata sheet into executable schema: patient, FKTP, FKRTL, diagnosis, region, and socioeconomic attributes where feasible.[file:341] | Schema diagram and schema description text. |
+| 2 â€“ 8 May | Implement graph construction | Build node ID dictionaries, edge lists, feature matrices, and a saved graph object such as a PyTorch Geometric `HeteroData`. | `tbgraph_hetero.pt` or equivalent. |
+| 9 â€“ 15 May | Train tabular baselines | Build patient-level aggregate features and run logistic regression, random forest, and/or XGBoost. Record AUC, F1, recall, and calibration if possible. | Baseline results table. |
+| 16 â€“ 22 May | Train primary graph model | Train one main graph model carefully, tune modestly, and compare with baselines. Keep notes on split strategy and random seeds for reproducibility. | Main model metrics table and ROC/PR figure. |
+| 23 â€“ 29 May | Add XAI pass 1 | Run GNNExplainer or attention-based explanation on representative patients and export 3â€“4 readable subgraph figures. | Set of explanation figures. |
+| 30 May â€“ 5 Jun | Add equity analysis | Stratify results by PBI status, region, hospital class, and pathway pattern. Quantify disparities in predicted risk and observed outcomes. | Equity tables and plots. |
+| 6 â€“ 12 Jun | Robustness checks | Test a second split strategy, a sensitivity analysis for label threshold, or a simplified graph ablation. Choose one or two checks only. | Robustness subsection and small results table. |
+| 13 â€“ 19 Jun | Write manuscript v1 | Write the full paper from intro to discussion. Use the literature review spreadsheet to support the novelty claim carefully.[file:341] | Full draft. |
+| 20 â€“ 26 Jun | Revise manuscript v2 | Strengthen figures, sharpen contributions, reduce weak claims, and align terminology with the special issueâ€™s graph-based AI theme.[cite:357] | Revised final draft. |
+| 27 â€“ 30 Jun | Final package and submit | Prepare cover letter, highlights, author metadata, and final files. Submit the journal paper and archive the submission package. | Final journal submission.[cite:357] |
 
-You already have strong ingredients: unique BPJS TB dataset, a clear gap in the literature, and a powerful graph‑plus‑XAI story.[file:341][file:339] This plan is designed so that, if you execute each row, you will have a solid, reviewer‑friendly first PhD paper and a path toward two more publications.
+### Information Sciences coding checklist
+
+| Module | What to code | What good looks like |
+|---|---|---|
+| Cohort builder | Stable patient episode builder from BPJS tables | Reproducible cohort every run |
+| Feature builder | Patient, socioeconomic, facility, and pathway aggregates | Clean tabular matrix |
+| KG builder | Node/edge creation and graph serialization | Working graph object for modeling |
+| Baselines | Logistic regression, RF/XGBoost | Fair comparison to graph model |
+| Graph model | One strong main GNN | Competitive or improved performance |
+| Explainer | GNNExplainer or attention workflow | Interpretable pathway figures |
+| Equity module | Group disparity summaries | Quantified inequity narrative |
+| Figure export | Tables, ROC/PR, XAI graphs | Journal-quality visuals |
+
+## Part 3 â€” XAI-focused journal target (deadline 30 June 2026)
+
+This submission is only realistic if you position it as **different from the Information Sciences paper**.[cite:357]  
+It should not be just the same paper with the word â€œXAIâ€ in the title; instead, it must foreground explanation quality, fairness, interpretability, and trustworthiness in graph-based TB governance.[file:339][file:341]
+
+### XAI paper target structure
+
+| Section | What must be emphasized |
+|---|---|
+| Problem | Why explainability matters for policy-sensitive TB risk modeling |
+| Method | Graph model plus explanation pipeline |
+| Explanation methods | At least one main explainer and ideally one comparison method |
+| Evaluation | Explanation stability, plausibility, and subgroup fairness |
+| Use case | How explanations reveal inequitable care pathways |
+| Discussion | Trustworthiness and governance relevance |
+
+### XAI detailed steps
+
+| Step | Task | What exactly to do | Deliverable |
+|---|---|---|---|
+| 1 | Define distinct paper question | Reframe the question from â€œCan graph AI predict TB risk?â€ to â€œHow can graph explanations reveal inequitable TB pathways in BPJS claims?â€ | Separate abstract and contribution bullets. |
+| 2 | Reuse the same graph/model backbone | Do not rebuild the whole pipeline from scratch. Reuse the cohort, graph object, and best graph model from the main paper. | Shared backbone with the journal paper. |
+| 3 | Add a second explanation lens | If feasible, compare GNNExplainer with attention-based explanation or another graph explanation approach. | One explanation-comparison table. |
+| 4 | Evaluate explanation quality | Check whether similar patients have similar explanations, whether important nodes/edges are stable across runs, and whether the outputs are policy-interpretable. | One explanation-quality results subsection. |
+| 5 | Strengthen fairness link | Compare explanations across PBI vs non-PBI, Java-Bali vs outside Java-Bali, or higher vs lower hospital class pathways. | One fairness/XAI figure or table. |
+| 6 | Write focused manuscript | Keep the paper centered on explainability rather than full predictive performance benchmarking. | Draft XAI manuscript. |
+| 7 | Decide submit or defer | Submit only if overlap with the graph-AI journal is low enough and the XAI angle is clearly stronger than cosmetic rewording. | Go/no-go submission decision. |
+
+## Shared execution order
+
+To avoid getting stuck, use one fixed implementation order for all three submissions.  
+Each stage feeds the next, and most code should be reused rather than rewritten.
+
+| Order | Shared task | Why it comes first |
+|---|---|---|
+| 1 | Freeze one clear label per submission | Prevents drifting scope |
+| 2 | Build clean patient-level cohort | Everything depends on clean cohort logic |
+| 3 | Implement graph construction | All graph experiments require this backbone |
+| 4 | Run tabular baselines | Gives you a defensible non-graph benchmark |
+| 5 | Train one main GNN | Avoids wasting time on too many model variants |
+| 6 | Generate XAI outputs | Needed for both workshop and journal narratives |
+| 7 | Add equity analysis | Converts technical output into policy relevance |
+| 8 | Write while results stabilize | Reduces last-minute manuscript chaos |
+
+## What â€œwinningâ€ should mean for your first PhD paper
+
+A strong first PhD submission is not the one with the largest number of experiments; it is the one with the **cleanest scope, clearest novelty claim, reproducible pipeline, and most defensible story**.  
+For TBGraph, the winning formula is: one well-defined TB task, one clearly documented BPJS-to-graph construction pipeline, one fair baseline comparison, and a few compelling XAI figures that reveal inequitable patient-facility pathways in a way that matters for TB governance.[file:339][file:341]
+
+## Daily rule until the first deadline
+
+Until **3 May**, work in this order every day: **label -> cohort -> graph -> baseline -> GNN -> 1 XAI figure -> writing**.[cite:375]  
+After the ICML submission, switch to:  **robust cohort -> stronger graph -> better experiments -> more XAI -> equity analysis -> journal writing**.[cite:357]
