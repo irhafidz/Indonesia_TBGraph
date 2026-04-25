@@ -1,4 +1,4 @@
-# TBGraph Action Plan – From BPJS Dataset to Winning Submissions
+# TBGraph Action Plan
 
 ## Overview
 
